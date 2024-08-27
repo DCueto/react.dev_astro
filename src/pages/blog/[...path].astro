@@ -1,0 +1,24 @@
+---
+import BlogLayout from "@layouts/BlogLayout.astro";
+
+export function getStaticPaths() {
+  return [
+    {
+      params: {
+        path: "2020/12/21/data-fetching-with-react-server-components",
+      },
+    },
+    {
+      params: {
+        path: "2023/03/16/introducing-react-dev",
+      }
+    }
+  ];
+}
+
+const { path } = Astro.params;
+---
+
+<BlogLayout title="React Blog - React" header="React Blog">
+  <h1>{ path }</h1>
+</BlogLayout>
