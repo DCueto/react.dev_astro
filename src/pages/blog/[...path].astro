@@ -1,24 +1,40 @@
 ---
 import BlogLayout from "@layouts/BlogLayout.astro";
+import { getCollection } from "astro:content";
 
-export function getStaticPaths() {
-  return [
-    {
+export async function getStaticPaths() {
+  const allBlogPosts = await getCollection("blog");
+
+  // construct paths
+  const paths = allBlogPosts.map((blogEntry) => {
+    const url = `${blogEntry.data.year}/${blogEntry.data.month}/${blogEntry.data.day}/${blogEntry.slug}`;
+
+    return {
       params: {
-        path: "2020/12/21/data-fetching-with-react-server-components",
+        path: url,
       },
-    },
-    {
-      params: {
-        path: "2023/03/16/introducing-react-dev",
+      props: {
+        blogEntry,
       }
     }
-  ];
+  });
+
+  return paths;
 }
 
 const { path } = Astro.params;
+console.log( "path params", path );
+
+// properties
+const { blogEntry } = Astro.props;
+console.log( "blog entry props", blogEntry );
+
+const { Content } = await blogEntry.render();
 ---
 
 <BlogLayout title="React Blog - React" header="React Blog">
   <h1>{ path }</h1>
+
+  <!-- Render the content -->
+   <Content />
 </BlogLayout>
