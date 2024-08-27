@@ -1,6 +1,7 @@
 ---
 import BlogLayout from "@layouts/BlogLayout.astro";
 import { getCollection } from "astro:content";
+import { mdxComponents } from "@components/mdxComponents";
 
 export async function getStaticPaths() {
   const allBlogPosts = await getCollection("blog");
@@ -33,8 +34,9 @@ const { Content } = await blogEntry.render();
 ---
 
 <BlogLayout title="React Blog - React" header="React Blog">
-  <h1>{ path }</h1>
-
+  <!-- <h1>{ path }</h1> -->
   <!-- Render the content -->
-   <Content />
+
+   <Content components={mdxComponents} />
+   <!-- <Content /> -->
 </BlogLayout>
